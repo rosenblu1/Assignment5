@@ -24,23 +24,27 @@ public class Block {
     Hash potHash = null;
     long potNonce = 0;
 
-    while (!potHash.isValid()) {
+    do  {
       byte[] numBytes = ByteBuffer.allocate(4).putInt(num).array(); // puts num into byte buffer
-      byte[] amountBytes = ByteBuffer.allocate(4).putInt(amount).array(); // puts amount into byte
-                                                                          // buffer
+      byte[] amountBytes = ByteBuffer.allocate(4).putInt(amount).array(); // puts amount into byte                                                                         // buffer
       byte[] nonceBytes = ByteBuffer.allocate(8).putLong(potNonce).array();
 
       md.update(numBytes);
       md.update(amountBytes);
+      
+      if (prevHash != null) {
       md.update(prevHash.getData());
+      }
+      
       md.update(nonceBytes);
 
       potHash = new Hash(md.digest());
       potNonce++;
-    }
-
+    } while (!potHash.isValid());
+    
     this.hash = potHash;
     this.nonce = potNonce - 1;
+  
   }// Block(int num, int amount, Hash prevHash)
 
 
