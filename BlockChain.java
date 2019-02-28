@@ -49,7 +49,6 @@ public class BlockChain {
     this.last = newNode;
     
     if(!this.isValidBlockChain()) {
-      System.out.println(this.isValidBlockChain());
         this.removeLast();
     }
     

@@ -25,7 +25,7 @@ public class BlockChainDriver {
       if (input.equals("mine")) {
         pen.println("Amount transferred?");
         int amount = Integer.parseInt(in.next()); 
-        pen.println("amount = " + amount + " nonce = " + chain.mine(amount).getNonce());
+        pen.println("amount = " + amount + ", nonce = " + chain.mine(amount).getNonce());
       } else if (input.equals("append")) {
         pen.println("Amount transferred?");         
         int amount = Integer.parseInt(in.next());
@@ -33,7 +33,9 @@ public class BlockChainDriver {
         long nonce = Long.parseLong(in.next());
         chain.append(new Block((chain.last.value.getNum() + 1), amount, chain.last.value.getHash(), nonce));
       } else if (input.equals("remove")) {
-          chain.removeLast();
+          if(!chain.removeLast()) {
+        	  pen.println("Cannot remove block from single-block chains");
+          }
       } else if (input.equals("check")) {
         if (chain.isValidBlockChain()) {
           pen.println("chain is valid");
